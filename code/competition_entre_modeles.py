@@ -68,7 +68,7 @@ def partie_entre_modeles(nom_fichier_modele1, nom_fichier_modele2, utiliser_agen
 if __name__ == "__main__":
     # On charge un jeu avec un modèle d'agent enregistré et où le vrai joueur joue en premier
     duels = np.array([[0, 1], [0, 2], [1, 0], [2, 0], [1, 2], [2, 1]])
-    noms_agents = ["faibletest", "moyentest", "forttest"]
+    noms_agents = ["faible", "moyen", "fort"]
     tableau_resultats = pd.DataFrame({"duel": [f"{noms_agents[0]} vs {noms_agents[1]}",
                                                f"{noms_agents[0]} vs {noms_agents[2]}",
                                                f"{noms_agents[1]} vs {noms_agents[0]}",

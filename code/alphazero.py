@@ -330,7 +330,7 @@ def main():
                      40]  # Jouer un certain nombre de parties pour générer des exemples à chaque itération (batch)
     liste_nb_etapes_recherche = [0, 20, 40]  # Pour chaque étape de chaque partie, considérer autant d'issues
     lsite_nb_pas_optimisation = [0, 10, 15]  # Le nombre d'époques pour entraîner le modèle sur des données générées
-    noms_agents = ["faibletest", "moyentest", "forttest"]
+    noms_agents = ["faible", "moyen", "fort"]
     for k in range(0, 3):
         iterations = liste_iterations[k]
         nb_jeux = liste_nb_jeux[k]
