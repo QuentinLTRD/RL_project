@@ -17,16 +17,14 @@ def partie_entre_modeles(nom_fichier_modele1, nom_fichier_modele2, utiliser_agen
     agent1 = None
     agent2 = None
 
-    if utiliser_agent_heuristique:
-        agent = None
-    else:  # Si on choisit un agent entraîné
-        # L'agent est du type du modèle choisit
-        agent1 = AlphaZero(taille_entree, taille_couches_cachees, taille_sortie)
-        # On charge le modèle préenregistré
-        agent1.load_state_dict(torch.load(nom_fichier_modele1, map_location=device))
-        agent2 = AlphaZero(taille_entree, taille_couches_cachees, taille_sortie)
-        # On charge le modèle préenregistré
-        agent2.load_state_dict(torch.load(nom_fichier_modele2, map_location=device))
+    # L'agent est du type du modèle choisit
+    agent1 = AlphaZero(taille_entree, taille_couches_cachees, taille_sortie)
+    # On charge le modèle préenregistré
+    agent1.load_state_dict(torch.load(nom_fichier_modele1, map_location=device))
+
+    agent2 = AlphaZero(taille_entree, taille_couches_cachees, taille_sortie)
+    # On charge le modèle préenregistré
+    agent2.load_state_dict(torch.load(nom_fichier_modele2, map_location=device))
     # On passe en mode évaluation
     agent1.eval()
     agent2.eval()

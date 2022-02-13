@@ -17,12 +17,12 @@ class AlphaZero(torch.nn.Module):
         self.dimension_entree = dimension_entree
         self.dimension_sortie = dimension_sortie
         self.couche_entree = Linear(dimension_entree, dimension_couche_cachee)
-        self.couches_fully_conv = torch.nn.ModuleList(
+        self.couches_residuelles = torch.nn.ModuleList(
             [Linear(dimension_couche_cachee, dimension_couche_cachee),
              Linear(dimension_couche_cachee, dimension_couche_cachee),
              Linear(dimension_couche_cachee, dimension_couche_cachee)])
 
-        self.batch_norms = torch.nn.ModuleList([BatchNorm1d(dimension_couche_cachee) for _ in self.couches_fully_conv])
+        self.batch_norms = torch.nn.ModuleList([BatchNorm1d(dimension_couche_cachee) for _ in self.couches_residuelles])
         self.policy = Linear(dimension_couche_cachee, dimension_sortie)
         self.value = Linear(dimension_couche_cachee, 1)
 
@@ -31,7 +31,7 @@ class AlphaZero(torch.nn.Module):
             x = x.unsqueeze(0)  # On ajoute une dimension en position 0 (on met le tableau dans un tableau)
 
         hidden = relu(self.couche_entree(x))
-        for i, l in enumerate(self.couches_fully_conv):  # On passe à travers les couches cachées
+        for i, l in enumerate(self.couches_residuelles):  # On passe à travers les couches cachées
             hidden = l(hidden) + hidden  # Bloc résiduel
             hidden = self.batch_norms[i](hidden)
             hidden = relu(hidden)
