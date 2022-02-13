@@ -325,7 +325,7 @@ def main():
     print(agent)
     agent.eval()
     print(f"Paramètres : {sum([p.nelement() for p in agent.parameters()])}")
-    liste_iterations = [0, 15, 30]  # Le nombre de fois où l'on crée des données et entraîne le modèle
+    liste_iterations = [0, 15, 60]  # Le nombre de fois où l'on crée des données et entraîne le modèle
     liste_nb_jeux = [0, 20,
                      40]  # Jouer un certain nombre de parties pour générer des exemples à chaque itération (batch)
     liste_nb_etapes_recherche = [0, 20, 40]  # Pour chaque étape de chaque partie, considérer autant d'issues
