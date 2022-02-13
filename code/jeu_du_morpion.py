@@ -8,22 +8,19 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Processeur : {device}")
 
 
-def charger_et_jouer(nom_fichier_modele, tour_agent=1, utiliser_agent_heuristique=False):
+def charger_et_jouer(nom_fichier_modele, tour_agent=1):
     jeu = Morpion()  # On instancie un jeu
     taille_entree = jeu.taille_grille_et_tour  # L'entrée du réseau est de taille 9 + 1 (taille de la grille + tour)
     taille_sortie = jeu.taille_grille  # Il y a 9 actions possibles
     taille_couches_cachees = 128  # Taille des couches cachées
 
-    if utiliser_agent_heuristique:
-        agent = None
-    else:  # Si on choisit un agent entraîné
-        # L'agent est du type du modèle choisit
-        agent = AlphaZero(taille_entree, taille_couches_cachees, taille_sortie)
-        agent.load_state_dict(torch.load(nom_fichier_modele, map_location=device))  # On charge le modèle préenregistré
+    # L'agent est du type du modèle choisit
+    agent = AlphaZero(taille_entree, taille_couches_cachees, taille_sortie)
+    agent.load_state_dict(torch.load(nom_fichier_modele, map_location=device))  # On charge le modèle préenregistré
     # On passe en mode évaluation
     agent.eval()
     # On joue avec l'agent
-    jouer_avec_agent(agent, tour_agent=tour_agent, utiliser_agent_heuristique=utiliser_agent_heuristique, verbose=True)
+    jouer_avec_agent(agent, tour_agent=tour_agent, verbose=True)
 
 
 def obtenir_action_agent(agent, jeu, etat, verbose=False):
@@ -45,18 +42,14 @@ def obtenir_action_agent(agent, jeu, etat, verbose=False):
     return action
 
 
-def jouer_avec_agent(agent, tour_agent=1, utiliser_agent_heuristique=False, verbose=False):
+def jouer_avec_agent(agent, tour_agent=1, verbose=False):
     jeu = Morpion()
     etat, recompense, fini = jeu.reinitialiser()  # On initialise la partie
     jeu.afficher_grille()  # On affiche la grille
     while not fini:  # Tant que la partie n'est pas finie
         if tour_agent == 1:  # Si c'est l'agent qui joue en premier
-
-            if utiliser_agent_heuristique:  # Si on a choisi l'agent heuristique
-                action_agent = jeu.obtenir_action_heuristique()
-            else:  # Si on a choisi l'agent entraîné avec le modèle
-                # On récupère l'action de l'agent
-                action_agent = obtenir_action_agent(agent, jeu, etat, verbose=verbose)
+            # On récupère l'action de l'agent
+            action_agent = obtenir_action_agent(agent, jeu, etat, verbose=verbose)
 
             # On effectue l'action puis on passe au tour suivant
             etat, recompense, fini = jeu.effectuer_pas(action_agent)
@@ -83,10 +76,7 @@ def jouer_avec_agent(agent, tour_agent=1, utiliser_agent_heuristique=False, verb
             etat, recompense, fini = jeu.effectuer_pas(action)
             jeu.afficher_grille()
             if not fini:
-                if utiliser_agent_heuristique:
-                    action_agent = jeu.obtenir_action_heuristique()
-                else:
-                    action_agent = obtenir_action_agent(agent, jeu, etat, verbose=verbose)
+                action_agent = obtenir_action_agent(agent, jeu, etat, verbose=verbose)
                 etat, recompense, fini = jeu.effectuer_pas(action_agent)
                 jeu.afficher_grille()
 
