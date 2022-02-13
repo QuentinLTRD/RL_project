@@ -9,13 +9,11 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Processeur : {device}")
 
 
-def partie_entre_modeles(nom_fichier_modele1, nom_fichier_modele2, utiliser_agent_heuristique=False):
+def partie_entre_modeles(nom_fichier_modele1, nom_fichier_modele2):
     jeu = Morpion()  # On instancie un jeu
     taille_entree = jeu.taille_grille_et_tour  # L'entrée du réseau est de taille 9 + 1 (taille de la grille + tour)
     taille_sortie = jeu.taille_grille  # Il y a 9 actions possibles
     taille_couches_cachees = 128  # Taille des couches cachées
-    agent1 = None
-    agent2 = None
 
     # L'agent est du type du modèle choisit
     agent1 = AlphaZero(taille_entree, taille_couches_cachees, taille_sortie)
