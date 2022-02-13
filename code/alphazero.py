@@ -332,6 +332,7 @@ def main():
     lsite_nb_pas_optimisation = [0, 10, 15]  # Le nombre d'époques pour entraîner le modèle sur des données générées
     noms_agents = ["faible", "moyen", "fort"]
     for k in range(0, 3):
+        debut_entrainement = time.time()
         iterations = liste_iterations[k]
         nb_jeux = liste_nb_jeux[k]
         nb_etapes_recherche = liste_nb_etapes_recherche[k]
@@ -422,19 +423,16 @@ def main():
             torch.save(agent.state_dict(),
                        f"../models/tictactoe_agent{noms_agents[k]}.pt")  # On enregistre le nouveau modèle
             print(f"Meilleure loss : {meilleure_loss}")
+        fin_entrainement = time.time()
+        temps_entrainement = fin_entrainement - debut_entrainement
+        h = temps_entrainement // 3600
+        m = (temps_entrainement - h * 3600) // 60
+        s = temps_entrainement % 60
+        print(f"Temps d'entraînement du modèle {noms_agents[k]} : {h} h {m} m {s} s")
 
     return agent
 
 
 if __name__ == "__main__":
-    debut_entrainement = time.time()
     main()
-    fin_entrainement = time.time()
 
-    temps_entrainement = fin_entrainement - debut_entrainement
-    h = temps_entrainement // 3600
-    m = (temps_entrainement - h * 3600) // 60
-    s = temps_entrainement % 60
-    print(f"Temps : {h} h {m} m {s} s")
-
-    # compétition entre les différents modèles.

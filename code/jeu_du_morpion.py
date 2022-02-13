@@ -95,4 +95,10 @@ def jouer_avec_agent(agent, tour_agent=1, verbose=False):
 
 if __name__ == "__main__":
     # On charge un jeu avec un modèle d'agent enregistré et où le vrai joueur joue en premier
+    charger_et_jouer("../models/tictactoe_agentfaible.pt", tour_agent=1)
+    charger_et_jouer("../models/tictactoe_agentfaible.pt", tour_agent=2)
     charger_et_jouer("../models/tictactoe_agentmoyen.pt", tour_agent=1)
+    charger_et_jouer("../models/tictactoe_agentmoyen.pt", tour_agent=2)
+    charger_et_jouer("../models/tictactoe_agentfort.pt", tour_agent=1)
+    charger_et_jouer("../models/tictactoe_agentfort.pt", tour_agent=2)
+

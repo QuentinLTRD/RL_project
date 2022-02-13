@@ -1,6 +1,5 @@
 import numpy as np
 
-
 class Morpion:
     def __init__(self):
         self.etat_jeu = np.zeros((3, 3))
